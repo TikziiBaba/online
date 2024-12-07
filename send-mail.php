@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Sunucu yapılandırması
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // SMTP sunucu adresi (burada Gmail örneği)
+        $mail->Host = 'smtp.gmail.com';  // Gmail SMTP sunucu adresi
         $mail->SMTPAuth = true;
-        $mail->Username = 'dedyusuf99@gmail.com'; // SMTP sunucusu için kullanıcı adı
-        $mail->Password = '309560Sa'; // SMTP sunucusu için parola
+        $mail->Username = 'dedyusuf99@gmail.com'; // Gmail adresiniz
+        $mail->Password = '309560Sa'; // Gmail şifreniz veya uygulama şifresi
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->addReplyTo('no-reply@tikzidev.online', 'Tikzidev');
 
         // Alıcı bilgisi
-        $mail->addAddress('dedyusuf99@gmail.com@tikzidev.online'); // Buraya kendi e-posta adresinizi yazın
+        $mail->addAddress('dedyusuf99@gmail.com'); // Kendi e-posta adresiniz
 
         // E-posta başlığı ve içeriği
         $mail->isHTML(true);

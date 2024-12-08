@@ -135,7 +135,7 @@ header {
 
 /* Yükleme ekranı */
 .loading-screen {
-    display: none; /* Başlangıçta görünmesin */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -143,12 +143,11 @@ header {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    text-align: center;
-    font-size: 24px;
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* Yükleme ekranı üstte olsun */
 }
+
 
 .loader {
     animation: spin 2s linear infinite;

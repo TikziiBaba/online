@@ -134,6 +134,7 @@ header {
 }
 
 /* Yükleme ekranı */
+/* Yükleme ekranı */
 .loading-screen {
     display: none; /* Başlangıçta görünmesin */
     position: fixed;
@@ -143,19 +144,40 @@ header {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    text-align: center;
-    font-size: 24px;
+    display: flex; /* Merkezlemek için flexbox kullan */
     justify-content: center;
     align-items: center;
     z-index: 2000; /* Yükleme ekranı üstte olsun */
+    flex-direction: column;
+    text-align: center;
 }
 
+/* Daire şeklinde yükleme animasyonu */
 .loader {
-    animation: spin 2s linear infinite;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px; /* Mesaj ile boşluk bırak */
 }
 
 /* Yükleme animasyonu */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Yükleme mesajı */
+.loading-text {
+    font-size: 18px;
+    color: #ffffff;
+    animation: fade 2s infinite;
+}
+
+/* Yanıp sönme efekti */
+@keyframes fade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }

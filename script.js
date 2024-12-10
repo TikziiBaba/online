@@ -5,29 +5,34 @@ const products = [
 ];
 
 // HTML sayfasındaki ürünleri dinamik olarak yazdırmak
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const productElements = document.querySelectorAll('.product');
+    const loadingScreen = document.getElementById('loadingScreen');
 
+    // Başlangıçta yükleme ekranını gizle
+    loadingScreen.style.display = 'none';
+
+    // Ürün bilgilerini dinamik olarak yerleştirme
     productElements.forEach((productElement, index) => {
         const product = products[index];
 
-        // Ürün ismini ve fiyatını dinamik olarak yerleştirme
+        // Ürün ismi ve fiyatını ekleme
         productElement.querySelector('.product-title').textContent = product.name;
         productElement.querySelector('.product-price').textContent = `Fiyat: ${product.price}₺`;
 
-        // Ürün resmini dinamik olarak eklemek
+        // Ürün resmini ekleme
         const imgElement = productElement.querySelector('img');
         imgElement.src = product.image;
-        imgElement.alt = product.name; // Resmin alt metni olarak ürün adını ekliyoruz
+        imgElement.alt = product.name;
 
-        // Sepete ekle butonuna işlevsellik ekleme
-        productElement.querySelector('.add-to-cart').addEventListener('click', function() {
+        // "Sepete Ekle" butonuna işlev ekleme
+        productElement.querySelector('.add-to-cart').addEventListener('click', function () {
             addToCart(product);
         });
     });
 });
 
-// Sepet
+// Sepet ve toplam fiyat verileri
 let cart = [];
 let total = 0;
 
@@ -39,7 +44,7 @@ function addToCart(product) {
     updateCart();
 }
 
-// Sepet güncelleme
+// Sepeti güncelleme fonksiyonu
 function updateCart() {
     const cartButton = document.getElementById('cartButton');
     cartButton.textContent = `Sepet (${cart.length})`;
@@ -48,25 +53,29 @@ function updateCart() {
     totalPriceElement.textContent = `Toplam: ${total}₺`;
 }
 
-// Sepet modalını açma
-document.getElementById('cartButton').addEventListener('click', function() {
+// Sepet modalını açma fonksiyonu
+document.getElementById('cartButton').addEventListener('click', function () {
     const cartModal = document.getElementById('cartModal');
     const cartItemsContainer = document.getElementById('cartItems');
-    
-    cartItemsContainer.innerHTML = '';  // Sepeti temizle
 
+    // Sepet içeriğini temizle
+    cartItemsContainer.innerHTML = '';
+
+    // Sepetteki ürünleri listele
     cart.forEach(item => {
         const itemElement = document.createElement('p');
         itemElement.textContent = `${item.name} - ${item.price}₺`;
         cartItemsContainer.appendChild(itemElement);
     });
 
+    // Modalı göster
     cartModal.style.display = 'flex';
 });
 
-// Sepet modalını kapama
-document.getElementById('closeCartButton').addEventListener('click', function() {
-    document.getElementById('cartModal').style.display = 'none';
+// Sepet modalını kapama fonksiyonu
+document.getElementById('closeCartButton').addEventListener('click', function () {
+    const cartModal = document.getElementById('cartModal');
+    cartModal.style.display = 'none';
 });
 
 // Yükleme ekranını gösterme ve ödeme sayfasına yönlendirme
@@ -75,9 +84,9 @@ function showLoadingScreen() {
     const loadingScreen = document.getElementById('loadingScreen');
     loadingScreen.style.display = 'flex';
 
-    // 2 saniye sonra ödeme sayfasına yönlendirme
-    setTimeout(function() {
-        const paymentUrl = "https://tikzidev.xyz/"; // Ödeme sayfası URL'sini değiştirin
+    // 2 saniye sonra ödeme sayfasına yönlendir
+    setTimeout(function () {
+        const paymentUrl = "https://tikzidev.xyz/"; // Ödeme sayfası URL'si
         window.location.href = paymentUrl;
-    }, 2000); // 2 saniye sonra ödeme sayfasına yönlendir
+    }, 2000); // 2 saniye bekle
 }

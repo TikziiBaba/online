@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bekir.sh</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="icoon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bekir Galeri</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="terminal">
-    <div class="output"></div>
-    <div class="input-line">
-      <span class="prompt">$</span>
-      <input class="input" type="text" placeholder="Komut girin..." />
+
+    <div id="gallery">
+        <div class="gallery-container">
+            <img src="images/image1.png" class="gallery-image active" alt="Resim 1">
+            <img src="images/image2.png" class="gallery-image" alt="Resim 2">
+            <img src="images/image3.png" class="gallery-image" alt="Resim 3">
+            <img src="images/image4.png" class="gallery-image" alt="Resim 4">
+            <img src="images/image5.png" class="gallery-image" alt="Resim 5">
+            <img src="images/image6.png" class="gallery-image" alt="Resim 6">
+        </div>
     </div>
-  </div>
-  <script src="commands.js"></script> <!-- Komutları içeren dosya -->
-  <script src="script.js"></script> <!-- JavaScript dosyanız -->
+
+    <!-- Sayfa altına küçük numaralar ekleyelim -->
+    <div class="pagination"></div>
+
 </body>
 </html>

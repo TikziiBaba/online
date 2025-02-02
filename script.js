@@ -1,58 +1,72 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const terminal = document.querySelector(".terminal");
-    const output = document.querySelector(".output");
-    const input = document.querySelector(".input");
-  
-    // Çıktıyı terminale ekleme fonksiyonu
-    const appendOutput = (text) => {
-      const line = document.createElement("div");
-      line.textContent = text;
-      output.appendChild(line);
-      output.scrollTop = output.scrollHeight; // Otomatik kaydırma
-    };
-  
-    // İlk terminal başlatıldığında karşılama mesajı göster
-    appendOutput("Web terminaline hoş geldiniz!");
-    appendOutput("cmd: 'help' komutunu yazarak mevcut komutları görebilirsiniz.");
-  
-    // Komutları işleme fonksiyonu
-    const handleCommand = (cmd) => {
-      const [command, ...args] = cmd.split(" "); // Komutu ve argümanları ayır
-  
-      // Eğer komut varsa, fonksiyonu çalıştır
-      if (commands[command]) {
-        const result = commands[command](args.join(" ")); // Argümanları komuta gönder
-        if (result === "clear") {
-          output.innerHTML = ""; // clear komutu
-        } else if (result === "Yeni terminal başlatılıyor...") {
-          output.innerHTML = ""; // /new komutu çalıştırıldığında terminali sıfırlayın
-          appendOutput("Web terminaline hoş geldiniz!");
-          appendOutput("cmd: 'help' komutunu yazarak mevcut komutları görebilirsiniz.");
-        } else {
-          appendOutput(result); // Komut sonucunu terminalde göster
-        }
-      } else {
-        appendOutput(`'${cmd}' geçerli bir komut değil. 'help' yazmayı deneyin.`);
-      }
-    };
-  
-    // Enter tuşuna basıldığında komutu gönderme
-    input.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();  // Sayfanın yeniden yüklenmesini engellemek için
-  
-        const cmd = input.value.trim();  // Input değerini al
-        if (cmd) {
-          appendOutput(`$ ${cmd}`);  // Komutu terminalde göster
-          handleCommand(cmd);  // Komutu işle
-        }
-  
-        // Komut işlendiğinde inputu temizle
-        input.value = "";
-      }
-    });
-  
-    // Input'a odaklanma (ilk başta odaklanmasını sağlamak için)
-    input.focus();
-  });
-  
+let currentIndex = 0;
+const images = document.querySelectorAll('.gallery-image');
+const paginationContainer = document.querySelector('.pagination');
+
+// Küçük numaraları oluştur
+images.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.addEventListener('click', () => goToImage(index));
+    paginationContainer.appendChild(dot);
+});
+
+const paginationDots = document.querySelectorAll('.pagination div');
+updatePagination();
+
+// Resim değiştirme fonksiyonları
+function changeImage(next = true) {
+    images[currentIndex].classList.remove('active');
+    paginationDots[currentIndex].classList.remove('active');
+
+    if (next) {
+        currentIndex = (currentIndex + 1) % images.length;
+    } else {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+    }
+
+    images[currentIndex].classList.add('active');
+    paginationDots[currentIndex].classList.add('active');
+}
+
+function goToImage(index) {
+    images[currentIndex].classList.remove('active');
+    paginationDots[currentIndex].classList.remove('active');
+
+    currentIndex = index;
+
+    images[currentIndex].classList.add('active');
+    paginationDots[currentIndex].classList.add('active');
+}
+
+function updatePagination() {
+    paginationDots[currentIndex].classList.add('active');
+}
+
+// 3 saniyede bir otomatik geçiş
+setInterval(() => changeImage(true), 3000);
+
+// **Klavye Yön Tuşlarıyla Geçiş**
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") {
+        changeImage(true); // Sağ ok tuşu → sonraki resme geç
+    } else if (event.key === "ArrowLeft") {
+        changeImage(false); // Sol ok tuşu → önceki resme geç
+    }
+});
+
+// **Dokunmatik Kaydırma Desteği (Mobil İçin)**
+let startX = 0;
+
+document.querySelector("#gallery").addEventListener("touchstart", (event) => {
+    startX = event.touches[0].clientX;
+});
+
+document.querySelector("#gallery").addEventListener("touchend", (event) => {
+    let endX = event.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (diff > 50) {
+        changeImage(true); // Parmağı sola kaydır → sonraki resim
+    } else if (diff < -50) {
+        changeImage(false); // Parmağı sağa kaydır → önceki resim
+    }
+});
